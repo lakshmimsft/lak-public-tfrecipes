@@ -1,26 +1,22 @@
-terraform {
-  required_providers {
-    docker = {
-      source  = "kreuzwerker/docker"
-      version = "2.23.1"
-    }
-  }
+provider "mysql" {
+  endpoint = "my-database.example.com:3306"
+  username = "app-user"
+  password = "app-password"
 }
 
-provider "docker" {
-  host = "tcp://localhost:2375"
+resource "mysql_database" "app_db" {
+  name = "my_app_db"
 }
 
-resource "docker_image" "nginx" {
-  name         = "nginx:latest"
-  keep_locally = false
+resource "mysql_user" "app_user" {
+  user     = "app_user"
+  host     = "%"
+  plaintext_password = "user-password"
 }
 
-resource "docker_container" "nginx" {
-  image = docker_image.nginx.latest
-  name  = "nginx-test"
-  ports {
-    internal = 80
-    external = 8000
-  }
+resource "mysql_grant" "app_user_grant" {
+  user       = mysql_user.app_user.user
+  host       = mysql_user.app_user.host
+  database   = mysql_database.app_db.name
+  privileges = ["SELECT", "UPDATE", "INSERT", "DELETE"]
 }
