@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    mysql = {
+      source  = "terraform-providers/mysql"
+      version = "1.10.0"
+    }
+  }
+}
+
 provider "mysql" {
   endpoint = "my-database.example.com:3306"
   username = "app-user"
