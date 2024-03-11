@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    postgresql = {
+      source  = "cyrilgdn/postgresql"
+      version = "1.16.0"
+    }
+  }
+}
+
+
 variable "host" {
   default = "localhost"
 }
@@ -17,6 +27,6 @@ provider "postgresql" {
   sslmode  = "disable"
 }
 
-resource postgresql_database "test" {
-  name = "test"
+resource "postgresql_role" "example_role" {
+  name     = "example-role"
 }
