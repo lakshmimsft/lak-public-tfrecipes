@@ -1,31 +1,22 @@
-terraform {
-  required_providers {
-    mysql = {
-      source  = "terraform-providers/mysql"
-      version = "1.9.0"
-    }
-  }
+variable "host" {
+  default = "localhost"
 }
 
-provider "mysql" {
-  endpoint = "my-database.example.com:3306"
-  username = "app-user"
-  password = "app-password"
+variable "password" {
+  default = "adm"
 }
 
-resource "mysql_database" "app_db" {
-  name = "my_app_db"
+variable "port" {
+  default = 55432
 }
 
-resource "mysql_user" "app_user" {
-  user     = "app_user"
-  host     = "%"
-  plaintext_password = "user-password"
+provider "postgresql" {
+  host     = var.host
+  port     = var.port
+  password = var.password
+  sslmode  = "disable"
 }
 
-resource "mysql_grant" "app_user_grant" {
-  user       = mysql_user.app_user.user
-  host       = mysql_user.app_user.host
-  database   = mysql_database.app_db.name
-  privileges = ["SELECT", "UPDATE", "INSERT", "DELETE"]
+resource postgresql_database "test" {
+  name = "test"
 }
