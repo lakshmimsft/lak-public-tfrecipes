@@ -79,18 +79,8 @@ resource "kubernetes_service" "postgres" {
   }
 }
 
-terraform {
-  required_providers {
-    
-  }
-}
-
 variable "host" {
   default = "postgres.dkr-resources-docker-default-recipe-app.svc.cluster.local"
-}
-
-variable "password" {
-  default = var.password
 }
 
 variable "port" {
