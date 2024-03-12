@@ -1,7 +1,4 @@
 variable "password" {
-  default = "abc-123-hgd-@#$"
-}
-
-variable "port" {
-  default = 5432
+  description = "The password for the PostgreSQL database"
+  type        = string
 }
